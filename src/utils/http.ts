@@ -1,5 +1,8 @@
 import axios from "axios";
 import type { AxiosRequestConfig, AxiosResponse } from "axios";
+import store from "../store";
+import { message } from "antd";
+import { clearToken } from "../store/modules/users";
 
 const instance = axios.create({
   baseURL: "http://localhost:3000/",
@@ -8,6 +11,9 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   function (config) {
+    if (config.headers) {
+      config.headers.authorization = store.getState().users.token;
+    }
     return config;
   },
   function (error) {
@@ -17,6 +23,13 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   function (response) {
+    if (response.data.errmsg === "token error") {
+      message.error("token error");
+      store.dispatch(clearToken());
+      setTimeout(() => {
+        window.location.replace("/login");
+      }, 1000);
+    }
     return response;
   },
   function (error) {

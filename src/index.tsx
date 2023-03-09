@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import "./assets/styles/reset.scss";
 import "./assets/styles/common.scss";
 import "./assets/styles/iconfont.scss";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { RouterProvider } from "react-router-dom";
 import router from "./router";
