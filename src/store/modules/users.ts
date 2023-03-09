@@ -7,25 +7,25 @@ type Infos = {
   [index: string]: unknown;
 };
 
-type UsersState = {
+export type UsersState = {
   token: Token;
   infos: Infos;
 };
 type Login = {
   email: string;
-  password: string;
+  pass: string;
 };
 
 export const loginAction = createAsyncThunk(
   "users/loginAction",
   async (payload: Login) => {
-    const ret = http.post("/users/login", payload);
+    const ret = await http.post("/users/login", payload);
     return ret;
   }
 );
 
 export const infosAction = createAsyncThunk("users/infosAction", async () => {
-  const ret = http.get("/users/infos");
+  const ret = await http.get("/users/infos");
   return ret;
 });
 
