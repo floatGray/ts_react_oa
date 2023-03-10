@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import type { Reducer, AnyAction } from "@reduxjs/toolkit";
-import usersReducers from "./modules/users";
+import usersReducer from "./modules/users";
+import signsReducer from "./modules/signs";
 import type { UsersState } from "./modules/users";
+import type { PersistPartial } from "redux-persist/es/persistReducer";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { useDispatch } from "react-redux";
-import type { PersistPartial } from "redux-persist/es/persistReducer";
 
 const persistConfig = {
   key: "root",
@@ -16,10 +17,11 @@ const persistConfig = {
 
 const store = configureStore({
   reducer: {
-    users: persistReducer(persistConfig, usersReducers) as Reducer<
+    users: persistReducer(persistConfig, usersReducer) as Reducer<
       UsersState & PersistPartial,
       AnyAction
     >,
+    signs: signsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
