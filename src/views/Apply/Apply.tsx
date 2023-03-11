@@ -17,13 +17,21 @@ import {
 import type { RadioChangeEvent } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
+import type { Infos } from "../../store/modules/checks";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../store";
 import type { RootState } from "../../store";
 import _ from "lodash";
+import {
+  getApplyAction,
+  postApplyAction,
+  updateApplyList,
+} from "../../store/modules/checks";
 import "dayjs/locale/zh-cn";
 import locale from "antd/es/date-picker/locale/zh_CN";
 import dayjs from "dayjs";
+import { putRemindAction, updateInfo } from "../../store/modules/news";
+import type { Info } from "../../store/modules/news";
 
 interface FormInfos {
   approvername: string;
@@ -39,6 +47,45 @@ const approverTypes = [
   { label: "未通过", value: "未通过" },
 ];
 const defaultType = approverTypes[0].value;
+const columns: ColumnsType<Infos> = [
+  {
+    title: "申请人",
+    dataIndex: "applicantname",
+    key: "applicantname",
+    width: 180,
+  },
+  {
+    title: "审批事由",
+    dataIndex: "reason",
+    key: "reason",
+    width: 180,
+  },
+  {
+    title: "时间",
+    dataIndex: "time",
+    key: "time",
+    render(_) {
+      return _.join(" - ");
+    },
+  },
+  {
+    title: "备注",
+    dataIndex: "note",
+    key: "note",
+  },
+  {
+    title: "审批人",
+    dataIndex: "approvername",
+    key: "approvername",
+    width: 180,
+  },
+  {
+    title: "状态",
+    dataIndex: "state",
+    key: "state",
+    width: 180,
+  },
+];
 
 export default function Apply() {
   const [approverType, setApproverType] = useState(defaultType);
@@ -46,8 +93,44 @@ export default function Apply() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const usersInfos = useSelector((state: RootState) => state.users.infos);
-
+  const applyList = useSelector(
+    (state: RootState) => state.checks.applyList
+  ).filter(
+    (v) =>
+      (v.state === approverType || defaultType === approverType) &&
+      (v.note as string).includes(searchWord)
+  );
+  const newsInfo = useSelector((state: RootState) => state.news.info);
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (_.isEmpty(applyList)) {
+      dispatch(getApplyAction({ applicantid: usersInfos._id as string })).then(
+        (action) => {
+          const { errcode, rets } = (
+            action.payload as { [index: string]: unknown }
+          ).data as { [index: string]: unknown };
+          if (errcode === 0) {
+            dispatch(updateApplyList(rets as Infos[]));
+          }
+        }
+      );
+    }
+  }, [applyList, usersInfos, dispatch]);
+
+  useEffect(() => {
+    if (newsInfo.applicant) {
+      dispatch(
+        putRemindAction({ userid: usersInfos._id as string, applicant: false })
+      ).then((action) => {
+        const { errcode, info } = (
+          action.payload as { [index: string]: unknown }
+        ).data as { [index: string]: unknown };
+        if (errcode === 0) {
+          dispatch(updateInfo(info as Info));
+        }
+      });
+    }
+  }, [dispatch, usersInfos, newsInfo]);
 
   const approverTypeChange = (ev: RadioChangeEvent) => {
     setApproverType(ev.target.value);
@@ -74,6 +157,27 @@ export default function Apply() {
         usersInfos.approver.find((item) => item.name === values.approvername)
           ._id,
     };
+    dispatch(postApplyAction(applyList)).then((action) => {
+      const { errcode } = (action.payload as { [index: string]: unknown })
+        .data as { [index: string]: unknown };
+      if (errcode === 0) {
+        message.success("添加审批成功");
+        handleCancel();
+        dispatch(
+          getApplyAction({ applicantid: usersInfos._id as string })
+        ).then((action) => {
+          const { errcode, rets } = (
+            action.payload as { [index: string]: unknown }
+          ).data as { [index: string]: unknown };
+          if (errcode === 0) {
+            dispatch(updateApplyList(rets as Infos[]));
+          }
+        });
+        dispatch(
+          putRemindAction({ userid: applyList.approverid, approver: true })
+        );
+      }
+    });
   };
   const onFinishFailed = ({ values }: { values: FormInfos }) => {
     console.log("Failed:", values);
@@ -109,6 +213,8 @@ export default function Apply() {
       <Table
         rowKey="_id"
         className={styles["apply-table"]}
+        dataSource={applyList}
+        columns={columns}
         bordered
         size="small"
         pagination={{ defaultPageSize: 5 }}
