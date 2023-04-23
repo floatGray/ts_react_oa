@@ -1,47 +1,49 @@
-import axios from "axios";
-import type { AxiosRequestConfig, AxiosResponse } from "axios";
-import store from "../store";
-import { message } from "antd";
-import { clearToken } from "../store/modules/users";
-import router from "../router";
+import axios from 'axios'
+import type { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { message } from 'antd'
+
+import store from '../store'
+import router from '../router'
+import { clearToken } from '../store/modules/users'
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: 'http://api.h5ke.top/',
   timeout: 5000,
-});
+})
 
 instance.interceptors.request.use(
   function (config) {
     if (config.headers) {
-      config.headers.authorization = store.getState().users.token;
+      config.headers.authorization = store.getState().users.token
     }
-    return config;
+    return config
   },
   function (error) {
-    return Promise.reject(error);
+    return Promise.reject(error)
   }
-);
+)
 
 instance.interceptors.response.use(
   function (response) {
-    if (response.data.errmsg === "token error") {
-      message.error("token error");
-      store.dispatch(clearToken());
+    if (response.data.errmsg === 'token error') {
+      message.error('token error')
+      store.dispatch(clearToken())
       setTimeout(() => {
-        window.location.replace("/login");
-      }, 1000);
-    } else if (response.data.errmsg === "error") {
-      router.navigate("/500");
+        window.location.replace('/login')
+      }, 1000)
+    } else if (response.data.errmsg === 'error') {
+      router.navigate('/500')
     }
-    return response;
+
+    return response
   },
   function (error) {
-    return Promise.reject(error);
+    return Promise.reject(error)
   }
-);
+)
 
 interface Data {
-  [index: string]: unknown;
+  [index: string]: unknown
 }
 
 interface Http {
@@ -49,27 +51,27 @@ interface Http {
     url: string,
     data?: Data,
     config?: AxiosRequestConfig
-  ) => Promise<AxiosResponse>;
+  ) => Promise<AxiosResponse>
   post: (
     url: string,
     data?: Data,
     config?: AxiosRequestConfig
-  ) => Promise<AxiosResponse>;
+  ) => Promise<AxiosResponse>
   put: (
     url: string,
     data?: Data,
     config?: AxiosRequestConfig
-  ) => Promise<AxiosResponse>;
+  ) => Promise<AxiosResponse>
   patch: (
     url: string,
     data?: Data,
     config?: AxiosRequestConfig
-  ) => Promise<AxiosResponse>;
+  ) => Promise<AxiosResponse>
   delete: (
     url: string,
     data?: Data,
     config?: AxiosRequestConfig
-  ) => Promise<AxiosResponse>;
+  ) => Promise<AxiosResponse>
 }
 
 const http: Http = {
@@ -77,23 +79,23 @@ const http: Http = {
     return instance.get(url, {
       params: data,
       ...config,
-    });
+    })
   },
   post(url, data, config) {
-    return instance.post(url, data, config);
+    return instance.post(url, data, config)
   },
   put(url, data, config) {
-    return instance.put(url, data, config);
+    return instance.put(url, data, config)
   },
   patch(url, data, config) {
-    return instance.patch(url, data, config);
+    return instance.patch(url, data, config)
   },
   delete(url, data, config) {
     return instance.delete(url, {
       data,
       ...config,
-    });
+    })
   },
-};
+}
 
-export default http;
+export default http

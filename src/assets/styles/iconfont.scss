@@ -1,10 +1,10 @@
 @font-face {
-  font-family: "iconfont"; /* Project id  */
+  font-family: 'iconfont'; /* Project id  */
   src: url('../images/iconfont.ttf?t=1650441273810') format('truetype');
 }
 
 .iconfont {
-  font-family: "iconfont" !important;
+  font-family: 'iconfont' !important;
   font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
@@ -12,21 +12,21 @@
 }
 
 .icon-vue:before {
-  content: "\e799";
+  content: '\e799';
 }
 
 .icon-typescript:before {
-  content: "\e6a3";
+  content: '\e6a3';
 }
 
 .icon-react:before {
-  content: "\f21a";
+  content: '\f21a';
 }
 
 .icon-icon-test:before {
-  content: "\e600";
+  content: '\e600';
 }
 
 .icon-qiehuan:before {
-  content: "\e741";
+  content: '\e741';
 }

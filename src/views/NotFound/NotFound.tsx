@@ -5,11 +5,11 @@ import { Button } from 'antd'
 
 export default function NotFound() {
   return (
-    <div className="status-wrapper">
-      <img src={img404} alt="" />
+    <div className='status-wrapper'>
+      <img src={img404} alt='' />
       <p>没有找到</p>
-      <Link to="/">
-        <Button type="primary">回到首页</Button>
+      <Link to='/'>
+        <Button type='primary'>回到首页</Button>
       </Link>
     </div>
   )

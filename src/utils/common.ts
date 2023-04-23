@@ -1,9 +1,9 @@
-const toZero: (n: number) => string = (n) => {
+function toZero(n: number): string {
   if (n < 10) {
-    return "0" + n;
+    return '0' + n
   } else {
-    return "" + n;
+    return '' + n
   }
-};
+}
 
-export { toZero };
+export { toZero }

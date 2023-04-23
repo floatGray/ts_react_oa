@@ -1,45 +1,45 @@
-import http from "../../utils/http";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+
+import http from '../../utils/http'
 
 export type Infos = {
-  [index: string]: unknown;
-};
+  [index: string]: unknown
+}
 export type SignsState = {
-  infos: Infos;
-};
+  infos: Infos
+}
 type Time = {
-  userid: string;
-};
+  userid: string
+}
 
 export const getTimeAction = createAsyncThunk(
-  "signs/getTimeAction",
+  'signs/getTimeAction',
   async (payload: Time) => {
-    const ret = await http.get("/signs/time", payload);
-    return ret;
+    const ret = await http.get('/signs/time', payload)
+    return ret
   }
-);
-
+)
 export const putTimeAction = createAsyncThunk(
-  "signs/putTimeAction",
+  'signs/putTimeAction',
   async (payload: Time) => {
-    const ret = await http.put("/signs/time", payload);
-    return ret;
+    const ret = await http.put('/signs/time', payload)
+    return ret
   }
-);
+)
 
 const signsSlice = createSlice({
-  name: "signs",
+  name: 'signs',
   initialState: {
     infos: {},
   } as SignsState,
   reducers: {
     updateInfos(state, action: PayloadAction<Infos>) {
-      state.infos = action.payload;
+      state.infos = action.payload
     },
   },
-});
+})
 
-export const { updateInfos } = signsSlice.actions;
+export const { updateInfos } = signsSlice.actions
 
-export default signsSlice.reducer;
+export default signsSlice.reducer

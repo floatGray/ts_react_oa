@@ -5,13 +5,12 @@ import { Button } from 'antd'
 
 export default function NotServer() {
   return (
-    <div className="status-wrapper">
-      <img src={img500} alt="" />
+    <div className='status-wrapper'>
+      <img src={img500} alt='' />
       <p>服务异常</p>
-      <Link to="/">
-        <Button type="primary">回到首页</Button>
+      <Link to='/'>
+        <Button type='primary'>回到首页</Button>
       </Link>
     </div>
   )
 }
-

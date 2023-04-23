@@ -1,7 +1,7 @@
 .login {
   width: 100vw;
   height: 100vh;
-  background: url("../../assets/images/login-bg.svg") no-repeat center 110px;
+  background: url('../../assets/images/login-bg.svg') no-repeat center 110px;
   background-size: 100%;
   .header {
     height: 44px;
@@ -46,7 +46,7 @@
     padding-top: 50px;
   }
   .users {
-    width: 500px;
+    width: 510px;
     margin: 60px auto;
     color: rgba(0, 0, 0, 0.65);
     h3 {
