@@ -122,13 +122,13 @@ function Login() {
           {testUsers.map((v) => (
             <Col span={12} key={v.email}>
               <h3>
-                测试账号，
+                测试账号：
                 <Button onClick={autoLogin({ email: v.email, pass: v.pass })}>
                   一键登录
                 </Button>
               </h3>
-              <p>邮箱：{v.email}</p>
-              <p>密码：{v.pass}</p>
+              <p>用户：{v.pass}</p>
+              <p>密码：********</p>
             </Col>
           ))}
         </Row>
