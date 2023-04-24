@@ -193,7 +193,7 @@ export default function Apply() {
   }
 
   const onFinishFailed = ({ values }: { values: any }) => {
-    console.log('Failed:', values)
+    
   }
 
   const handleReset = () => {

@@ -1,0 +1,1 @@
+import{E as t,j as s,D as r}from"./render-d5b6b10e.js";import{B as a}from"./button-419145c3.js";const i="/assets/403-ccf24a3b.png";function c(){return t("div",{className:"status-wrapper",children:[s("img",{src:i,alt:""}),s("p",{children:"没有权限"}),s(r,{to:"/",children:s(a,{type:"primary",children:"回到首页"})})]})}export{c as default};

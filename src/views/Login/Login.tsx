@@ -47,7 +47,7 @@ function Login() {
   }
 
   const onFinishFailed = ({ values }: { values: User }) => {
-    console.log('Failed:', values)
+
   }
 
   const autoLogin = (user: User) => {

@@ -20,7 +20,7 @@ function HomeHeader() {
 
   const isDot = (newsInfo.applicant || newsInfo.approver) as boolean | undefined
 
-  console.log(newsInfo)
+ 
 
   useEffect(() => {
     dispatch(getRemindAction({ userid: _id })).then((action) => {

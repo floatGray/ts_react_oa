@@ -1,0 +1,1 @@
+import{E as s,j as r,D as t}from"./render-d5b6b10e.js";import{B as e}from"./button-419145c3.js";const a="/assets/500-3aece928.png";function o(){return s("div",{className:"status-wrapper",children:[r("img",{src:a,alt:""}),r("p",{children:"服务异常"}),r(t,{to:"/",children:r(e,{type:"primary",children:"回到首页"})})]})}export{o as default};
