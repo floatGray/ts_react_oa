@@ -7,7 +7,8 @@ import router from '../router'
 import { clearToken } from '../store/modules/users'
 
 const instance = axios.create({
-  baseURL: 'http://api.h5ke.top/',
+  // baseURL: 'http://api.h5ke.top/',
+  baseURL: 'https://mock.apifox.cn/m1/2672849-0-default',
   timeout: 5000,
 })
 
